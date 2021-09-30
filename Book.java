@@ -71,7 +71,7 @@ public class Book {
     }
     
     public string getPathBook() {
-        this.return pathBook;
+        return pathBook;
     }
     
     public void setPathBook(String PathBook) {
