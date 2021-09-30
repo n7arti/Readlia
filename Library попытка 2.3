@@ -1,0 +1,30 @@
+package kpo;
+import java.util.ArrayList;
+public class Library 
+{
+
+          private ArrayList<Book> mBookNames = new ArrayList<Book>();
+
+          protected void onCreate(Bundle savedInstanceState)
+          {
+              super.onCreate(savedInstanceState);
+              setContentView(R.layout.activity_main);
+
+              mButton = findViewById(R.id.buttonGetResult);
+              mResultEditText = findViewById(R.id.editText);
+              mInfoTextView = findViewById(R.id.textViewInfo);
+
+
+
+          public void onClick(View view) 
+          {
+        	  mBookNames.add("Book1");
+              mBookNames.add("Book2");
+              mBookNames.add("Book3");
+              mBookNames.add("Book4");
+              // выводим название последней книги из массива и размер массива
+              mInfoTextView.setText(mBookNames.get(mBookNames.size() - 1) + 
+                      " Размер массива " + mBookNames.size());
+          }
+
+    }
