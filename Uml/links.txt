@@ -1,2 +1,5 @@
-https://lucid.app/lucidchart/3e52e822-27f7-4f3d-91ec-7d0da64095fa/edit?page=0_0# Диаграмма последовательности
+https://lucid.app/lucidchart/3e52e822-27f7-4f3d-91ec-7d0da64095fa/edit?page=0_0# Диаграмма последовательности (Пользователь)
 https://lucid.app/lucidchart/c35333f2-51b0-40a4-9e07-a5858f626cb8/edit?page=0_0# Диаграмма активности
+https://lucid.app/lucidchart/invitations/accept/inv_439081ec-1181-4a90-a4dd-213751321997?viewport_loc=-44%2C-97%2C1647%2C822%2C0_0  //Диаграмма последовательности (База данных)
+https://lucid.app/lucidchart/invitations/accept/inv_c1d3ab1e-1ee1-4b90-a74b-94c6547610a7 // Диаграмма классов
+https://lucid.app/lucidchart/invitations/accept/inv_5295ca8b-b8d6-4421-8752-ec99a2247d96?viewport_loc=-123%2C-119%2C2222%2C1109%2C0_0 //Диаграмма последовательностей (Гугл диск)
