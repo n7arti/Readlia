@@ -1,101 +1,101 @@
-package paket;
-import java.util.Date;
-import java.util.ArrayList;
-
-public class Stats {
-	
-    private int favgenre; // Любимый жанр (Пока инт, потом когда будут полноценные жанры
-                          // заменим на стринг)
-    private int pages, books, hours; // Собственно: страницы, книги и часы
-    private double avg; // Average - средняя скорость чтения
-
-    public Stats(String favgenre, int pages, int books, int hours, double avg) {
-       this.favgenre = 0; //ЗАМЕНИТЬ НА СТРИНГ, КОГДА БУДЕТ
-       this.pages = 0;
-       this.books = 0;
-       this.hours = 0;
-       this.avg = 0;
-   }
-    //геттеры и вся фигня
-
-    public int getfavgenre(){         // ЗАМЕНИТЬ
-        return favgenre;
-   } 
-   
-   public void setfavgenre(int a){    // ЗАМЕНИТЬ
-	   favgenre = a;
-   }
-   
-   
-   public int getpages(){
-        return pages;
-   } 
-   
-   public void setpages(int pages){
-        this.pages = pages;
-   }
-   
-   
-   public int getbooks(){
-       return books;
-  } 
+package paket; 
+import java.util.Date; 
+import java.util.ArrayList; 
+ 
+public class Stats { 
   
-  public void setbooks(int books){
-       this.books = books;
-  }
-  
-  
-  public int gethours(){
-      return hours;
+ private String favgenre; // Р›СЋР±РёРјС‹Р№ Р¶Р°РЅСЂ 
+ private int pages, books, hours; // РЎРѕР±СЃС‚РІРµРЅРЅРѕ: СЃС‚СЂР°РЅРёС†С‹, РєРЅРёРіРё Рё С‡Р°СЃС‹ 
+ private double avg; // Average - СЃСЂРµРґРЅСЏСЏ СЃРєРѕСЂРѕСЃС‚СЊ С‡С‚РµРЅРёСЏ 
+ 
+ public Stats(String favgenre, int pages, int books, int hours, double avg) { 
+ this.favgenre = favgenre; 
+ this.pages = 0; 
+ this.books = 0; 
+ this.hours = 0; 
+ this.avg = 0; 
+ } 
+ //РіРµС‚С‚РµСЂС‹ Рё РІСЃСЏ С„РёРіРЅСЏ 
+ 
+ public String getfavgenre(){ 
+ return favgenre; 
  } 
  
- public void sethours(int hours){
-      this.hours = hours;
- }
+ public void setfavgenre(String a){ 
+  favgenre = a; 
+ } 
  
- public double avg(){
-     return avg;
+ 
+ public int getpages(){ 
+ return pages; 
+ } 
+ 
+ public void setpages(int pages){ 
+ this.pages = pages; 
+ } 
+ 
+ 
+ public int getbooks(){ 
+ return books; 
+ } 
+ 
+ public void setbooks(int books){ 
+ this.books = books; 
+ } 
+ 
+ 
+ public int gethours(){ 
+ return hours; 
+ } 
+ 
+ public void sethours(int hours){ 
+ this.hours = hours; 
+ } 
+ 
+ public double avg(){ 
+ return avg; 
 } 
-
-public void setavg(double avg){
-     this.avg = avg;
-}
-
-
-//А дальше методы
-
-
+ 
+public void setavg(double avg){ 
+ this.avg = avg; 
+} 
+ 
+ 
+//Рђ РґР°Р»СЊС€Рµ РјРµС‚РѕРґС‹ 
+ 
+ 
 public void counthours () 
-{
-	
-	Date start = new Date();
-}
-
-
-// Метод будет активироваться по нажатию кнопки "Следующая страница"
-public void countpages () 
-{
-	setpages(getpages()+1);
-}
- 
-
-// Метод будет активироваться по нажатию кнопки "Завершить" в конце книги
-public void countbooks () 
-{
-	setbooks(getbooks()+1);
-}
- 
-// Этот метод будет активироваться только при выводе статистики
-public void countavg()
-{
-	setavg(getpages()/gethours());
-}
+{ 
   
-// Этот метод также будет запускаться при выводе статистики
-public int countfavgenre(Library library)
-{
-	// Я пока не придумал, как сделать эту хрень логичнее, но пусть пока будет 3
-	// элемента, где 0 - плохо, 1 - норм, 2 - хорошо (это все про жанры)
+ Date start = new Date(); 
+} 
+ 
+ 
+// РњРµС‚РѕРґ Р±СѓРґРµС‚ Р°РєС‚РёРІРёСЂРѕРІР°С‚СЊСЃСЏ РїРѕ РЅР°Р¶Р°С‚РёСЋ РєРЅРѕРїРєРё "РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂР°РЅРёС†Р°" 
+public void countpages () 
+{ 
+ setpages(getpages()+1); 
+} 
+ 
+ 
+// РњРµС‚РѕРґ Р±СѓРґРµС‚ Р°РєС‚РёРІРёСЂРѕРІР°С‚СЊСЃСЏ РїРѕ РЅР°Р¶Р°С‚РёСЋ РєРЅРѕРїРєРё "Р—Р°РІРµСЂС€РёС‚СЊ" РІ РєРѕРЅС†Рµ РєРЅРёРіРё 
+public void countbooks () 
+{ 
+ setbooks(getbooks()+1); 
+} 
+ 
+// Р­С‚РѕС‚ РјРµС‚РѕРґ Р±СѓРґРµС‚ Р°РєС‚РёРІРёСЂРѕРІР°С‚СЊСЃСЏ С‚РѕР»СЊРєРѕ РїСЂРё РІС‹РІРѕРґРµ СЃС‚Р°С‚РёСЃС‚РёРєРё 
+public void countavg() 
+{ 
+ setavg(getpages()/gethours()); 
+} 
+ 
+// Р­С‚РѕС‚ РјРµС‚РѕРґ С‚Р°РєР¶Рµ Р±СѓРґРµС‚ Р·Р°РїСѓСЃРєР°С‚СЊСЃСЏ РїСЂРё РІС‹РІРѕРґРµ СЃС‚Р°С‚РёСЃС‚РёРєРё 
+public int countfavgenre(Library library) 
+{ 
+ // РЇ РїРѕРєР° РЅРµ РїСЂРёРґСѓРјР°Р», РєР°Рє СЃРґРµР»Р°С‚СЊ СЌС‚Сѓ С…СЂРµРЅСЊ Р»РѕРіРёС‡РЅРµРµ, РЅРѕ РїСѓСЃС‚СЊ РїРѕРєР° Р±СѓРґРµС‚ 3 
+ // СЌР»РµРјРµРЅС‚Р°, РіРґРµ 0 - РїР»РѕС…Рѕ, 1 - РЅРѕСЂРј, 2 - С…РѕСЂРѕС€Рѕ (СЌС‚Рѕ РІСЃРµ РїСЂРѕ Р¶Р°РЅСЂС‹) 
+
 	int count[] = new int[3];
 	for (int i : count)
 	{
