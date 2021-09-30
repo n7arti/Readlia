@@ -75,7 +75,7 @@ public class Book {
     }
     
     public void setPathBook(String PathBook) {
-        this.PathBook = PathBook;
+        this.pathBook = PathBook;
     }
     
     public void read() {
