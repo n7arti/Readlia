@@ -15,79 +15,71 @@ public class Stats {
  this.hours = 0; 
  this.avg = 0; 
  } 
- //геттеры и вся фигня 
+ 
  
  public String getfavgenre(){ 
  return favgenre; 
  } 
  
  public void setfavgenre(String a){ 
-  favgenre = a; 
+ 	favgenre = a; 
  } 
  
- 
  public int getpages(){ 
- return pages; 
+ 	return pages; 
  } 
  
  public void setpages(int pages){ 
- this.pages = pages; 
+ 	this.pages = pages; 
  } 
  
  
  public int getbooks(){ 
- return books; 
+ 	return books; 
  } 
  
  public void setbooks(int books){ 
- this.books = books; 
+ 	this.books = books; 
  } 
  
  
  public int gethours(){ 
- return hours; 
+ 	return hours; 
  } 
  
  public void sethours(int hours){ 
- this.hours = hours; 
+ 	this.hours = hours; 
  } 
  
- public double avg(){ 
- return avg; 
+public double avg(){ 
+	return avg; 
 } 
  
 public void setavg(double avg){ 
- this.avg = avg; 
+ 	this.avg = avg; 
 } 
- 
  
 //А дальше методы 
  
- 
-public void counthours () 
-{ 
-  
- Date start = new Date(); 
+public void counthours () { 
+ 	Date start = new Date(); 
 } 
  
  
 // Метод будет активироваться по нажатию кнопки "Следующая страница" 
-public void countpages () 
-{ 
- setpages(getpages()+1); 
+public void countpages () { 
+ 	setpages(getpages()+1); 
 } 
  
  
 // Метод будет активироваться по нажатию кнопки "Завершить" в конце книги 
-public void countbooks () 
-{ 
- setbooks(getbooks()+1); 
+public void countbooks () { 
+ 	setbooks(getbooks()+1); 
 } 
  
 // Этот метод будет активироваться только при выводе статистики 
-public void countavg() 
-{ 
- setavg(getpages()/gethours()); 
+public void countavg() { 
+ 	setavg(getpages()/gethours()); 
 } 
  
 // Этот метод также будет запускаться при выводе статистики 
