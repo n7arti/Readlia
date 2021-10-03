@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Readlia/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.21770833333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_book.xml" value="0.21770833333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_book_day_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_book_day_true.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_book_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_book_true.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_button.xml" value="0.2140625" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_button_day.xml" value="0.21770833333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_day_and_night.xml" value="0.21770833333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_day_and_night_light.xml" value="0.2140625" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library.xml" value="0.22135416666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library1.xml" value="0.22135416666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library_day_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library_day_true.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_library_true.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_profile_day_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_profile_day_true.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_profile_false.xml" value="0.21041666666666667" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/ic_profile_true.xml" value="0.22135416666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/drawable/shadow.xml" value="0.20717948717948717" />
+        <entry key="..\:/Readlia/app/src/main/res/font/alegreya.xml" value="0.23541666666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/font/constactia.xml" value="0.23541666666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/font/constasia_modern.xml" value="0.23541666666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/layout-v21/book.xml" value="0.19427083333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/layout/activity_main.xml" value="0.67" />
+        <entry key="..\:/Readlia/app/src/main/res/layout/book.xml" value="0.67" />
+        <entry key="..\:/Readlia/app/src/main/res/layout/custom_drop_shadow_drawable.xml" value="0.19427083333333334" />
+        <entry key="..\:/Readlia/app/src/main/res/layout/library.xml" value="0.5" />
+        <entry key="..\:/Readlia/app/src/main/res/layout/profile.xml" value="0.9" />
+        <entry key="..\:/Readlia/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.22135416666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/mipmap-anydpi-v26/ic_launcher1_round.xml" value="0.22135416666666666" />
+        <entry key="..\:/Readlia/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
