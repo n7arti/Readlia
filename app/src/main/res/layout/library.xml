@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="55dp"
+        android:alpha="0.15"
+        android:background="@color/light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textLibrary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/constacia_modern"
+        android:text="@string/library_name"
+        android:textColor="@color/light"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/dayNightButton"
+        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_day_and_night"
+        android:layout_width="60dp"
+        android:layout_height="55dp"
+        android:background="@android:color/transparent"
+        android:onClick="onDayNightButtonClick"
+        tools:ignore="ContentDescription,OnClick,SpeakableTextPresentCheck,UsingOnClickInXml,VectorDrawableCompat"
+        tools:layout_editor_absoluteX="192dp"
+        tools:layout_editor_absoluteY="59dp" />
+
+    <ImageButton
+        android:id="@+id/mybookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="onBookClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_button"
+        tools:ignore="ContentDescription,ImageContrastCheck,MissingConstraints,OnClick,SpeakableTextPresentCheck,UsingOnClickInXml,VectorDrawableCompat" />
+
+    <ImageButton
+        android:id="@+id/libraryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="onLibraryClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton"
+        app:layout_constraintStart_toEndOf="@+id/mybookButton"
+        app:srcCompat="@drawable/ic_button"
+        tools:ignore="ContentDescription,ImageContrastCheck,MissingConstraints,OnClick,SpeakableTextPresentCheck,UsingOnClickInXml,VectorDrawableCompat" />
+
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:onClick="onProfileClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_button"
+        tools:ignore="ContentDescription,ImageContrastCheck,MissingConstraints,OnClick,SpeakableTextPresentCheck,VectorDrawableCompat" />
+
+    <ImageView
+        android:id="@+id/bookIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@+id/mybookButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mybookButton"
+        app:srcCompat="@drawable/ic_book_false"
+        tools:ignore="MissingConstraints,VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/littleMyBookText"
+        app:layout_constraintEnd_toEndOf="@+id/mybookButton"
+        app:layout_constraintStart_toStartOf="@+id/mybookButton"
+        app:layout_constraintTop_toBottomOf="@+id/bookIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/constacia_modern"
+        android:text="@string/book_name"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="235dp"
+        tools:layout_editor_absoluteY="55dp" />
+
+    <ImageView
+        android:id="@+id/libraryIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="@+id/libraryButton"
+        app:layout_constraintStart_toEndOf="@+id/mybookButton"
+        app:layout_constraintTop_toTopOf="@+id/libraryButton"
+        app:srcCompat="@drawable/ic_library_true"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/littleLibraryText"
+        app:layout_constraintEnd_toEndOf="@+id/libraryButton"
+        app:layout_constraintStart_toEndOf="@+id/mybookButton"
+        app:layout_constraintTop_toBottomOf="@+id/libraryIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/constacia_modern"
+        android:text="@string/library_name"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="150dp" />
+
+    <ImageView
+        android:id="@+id/profileIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/profileButton"
+        app:layout_constraintTop_toTopOf="@+id/profileButton"
+        app:srcCompat="@drawable/ic_profile_false"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/littleProfileText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/profileButton"
+        app:layout_constraintTop_toBottomOf="@+id/profileIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/constacia_modern"
+        android:text="@string/profile_name"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="98dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
