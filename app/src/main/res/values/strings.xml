@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Readlia</string>
+    <string name="book_name">Мои книги</string>
+    <string name="library_name">Библиотека</string>
+    <string name="profile_name">Профиль</string>
+</resources>
