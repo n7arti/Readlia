@@ -163,4 +163,16 @@
         tools:layout_editor_absoluteX="108dp"
         tools:layout_editor_absoluteY="98dp" />
 
+    <ListView
+        android:id="@+id/namesBooks"
+        android:layout_width="412dp"
+        android:layout_height="528dp"
+        android:divider="@color/light"
+        app:layout_constraintBottom_toTopOf="@+id/libraryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/line">
+
+    </ListView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
