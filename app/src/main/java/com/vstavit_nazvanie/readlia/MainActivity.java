@@ -176,8 +176,10 @@ public class MainActivity extends AppCompatActivity {
         page = 1;
         initFindId();
         setPropertiesTheme();
-        String[] pdfFile = {"Книга 1", "fjfjhfk"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pdfFile){
+        Book[] pdfFiles = new Book[0];
+        pdfFiles[0] = new Book();
+        //String[] pdfFile = {"Книга 1", "fjfjhfk"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, pdfFiles){
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
