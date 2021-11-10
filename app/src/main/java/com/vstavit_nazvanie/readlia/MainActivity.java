@@ -20,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
-    ListView mNamesBooks; //список с книгами
+    private ListView mNamesBooks; //список с книгами
     private ConstraintLayout mBackground; // цвет фона
     private TextView mTextMain; // цвет текста заголовка окна
     private ImageButton mDayNightButton;// кнопка день\ночь
@@ -172,21 +175,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLibraryClick(View view) {
+        CreateTestModul tool = new CreateTestModul();
+
         setContentView(layout.library);
         page = 1;
         initFindId();
         setPropertiesTheme();
-        String[] pdfFile = {"Книга 1", "fjfjhfk"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, pdfFile){
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView mText = (TextView) view.findViewById(android.R.id.text1);
-                return view;
-            }
-        };
-        mNamesBooks.setAdapter(adapter);
+
+        ArrayList<Book> pdfFiles = new ArrayList<Book>();
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+
+        BookAdapter adapter = new BookAdapter(this, layout.list_of_book, pdfFiles); // инциализировали адаптер который принимает (?), шаблон отображения элемента, список элементов
+        mNamesBooks.setAdapter(adapter); //адаптер показывает
+
         mNamesBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
