@@ -1,19 +1,20 @@
 package com.vstavit_nazvanie.readlia;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
-public class Autor {
+public class Genre {
 	private int id;
-	private HashMap<Integer, Book> bookhash  = new HashMap<>();
-	private HashMap<Integer, Genre> ganrehash  = new HashMap<>();
+	private HashMap<Integer, Autor> autorhash = new HashMap<>();
+	private HashMap<Integer, Book> bookhash = new HashMap<>();
 	private String name;
-	
-	public Autor() {
+
+	public Genre() {
 
 	}
 
-	public Autor(int id, String name) {
-		
+	public Genre(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -24,17 +25,17 @@ public class Autor {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public HashMap<Integer, Autor> getAutorhash() {
+		return autorhash;
+	}
+	public void setAutorhash(HashMap<Integer, Autor> autorhash) {
+		this.autorhash = autorhash;
+	}
 	public HashMap<Integer, Book> getBookhash() {
 		return bookhash;
 	}
 	public void setBookhash(HashMap<Integer, Book> bookhash) {
 		this.bookhash = bookhash;
-	}
-	public HashMap<Integer, Genre> getGanrehash() {
-		return ganrehash;
-	}
-	public void setGanrehash(HashMap<Integer, Genre> ganrehash) {
-		this.ganrehash = ganrehash;
 	}
 	public String getName() {
 		return name;
@@ -42,8 +43,6 @@ public class Autor {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 	
 	
 }

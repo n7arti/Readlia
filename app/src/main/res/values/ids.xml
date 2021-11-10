@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="text1" type="id" />
+    <item name="text_name" type="id" />
+    <item name="text_author" type="id" />
+    <item name="text_year" type="id" />
+    <item name="text_genre" type="id" />
 </resources>
