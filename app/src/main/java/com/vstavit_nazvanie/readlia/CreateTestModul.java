@@ -24,7 +24,7 @@ public class CreateTestModul {
         ganrehash.put(1, genre);
         ganrehash.put(2, genre1);
 
-        book.setAutorhash(autorhash);
+        book.setAuthorhash(autorhash);
         book.setGanrehash(ganrehash);
 
         return book;

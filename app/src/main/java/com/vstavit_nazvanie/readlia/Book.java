@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Book {
 	protected int id;
 	protected int image;
-	protected HashMap<Integer, Autor> autorhash = new HashMap<>();
+	protected HashMap<Integer, Autor> authorhash = new HashMap<>();
 	protected HashMap<Integer, Genre> ganrehash = new HashMap<>();
 	protected String title;
 	protected int pageCount;
@@ -45,11 +45,11 @@ public class Book {
 	public void setImage(int image) {
 		this.image = image;
 	}
-	public HashMap<Integer, Autor> getAutorhash() {
-		return autorhash;
+	public HashMap<Integer, Autor> getAuthorhash() {
+		return authorhash;
 	}
-	public void setAutorhash(HashMap<Integer, Autor> autorhash) {
-		this.autorhash = autorhash;
+	public void setAuthorhash(HashMap<Integer, Autor> authorhash) {
+		this.authorhash = authorhash;
 	}
 	public HashMap<Integer, Genre> getGanrehash() {
 		return ganrehash;

@@ -8,10 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import java.util.List;
-import java.util.Objects;
 
 public class BookAdapter extends ArrayAdapter<Book> {
 
@@ -40,8 +37,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
 
         imageView.setImageResource(book.getImage()); // Устанавливаем в место отображения картинку
         nameView.setText(book.getTitle()); // Устанавливаем название книги
-        for (int i = 1; i < book.autorhash.size() + 1; i++)
-            authorView.setText(book.getAutorhash().get(i).getName());
+        for (int i = 1; i < book.authorhash.size() + 1; i++)
+            authorView.setText(book.getAuthorhash().get(i).getName());
         yearView.setText(book.getStrYear());
         String strtotextbox = "";
         for (int i = 1; i < book.ganrehash.size() + 1; i++)
