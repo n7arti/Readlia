@@ -2,26 +2,34 @@ package com.vstavit_nazvanie.readlia;
 
 import static com.vstavit_nazvanie.readlia.R.*;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mNamesBooks; //список с книгами
@@ -38,21 +46,66 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mBookIcon; // иконка
     private ImageView mLibraryIcon; // иконка
     private ImageView mProfileIcon; // иконка
-    private boolean nighttheme; // датчик темы
     private int page; // индикатор страницы
+
+    private static class Properties {
+        private static boolean nighttheme = true;
+        private static String pathSave = "Classic path";
+
+        public static void setNighttheme(boolean value) {
+            nighttheme = value;
+        }
+        public static void setPathSave(String line) {
+            //тут надо как-то проверить что есть доступ для записи
+            pathSave = line;
+        }
+
+        public static String saveProperties() {
+            return nighttheme + "\n" + pathSave;
+        }
+
+        @Override
+        public String toString() {
+            return "Nighttheme = " + nighttheme + "\n" + "Save path = " + pathSave + "\n";
+        }
+    }
+    //end Properties class
+
+    public void savePropertiesAdapter() throws IOException {
+        String string = Properties.saveProperties();
+        FileOutputStream fos = openFileOutput("Properties", Context.MODE_PRIVATE);
+        fos.write(string.getBytes());
+        fos.close();
+    }
+    public void loadProperties() throws IOException  {
+        BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Properties")));
+        String line = br.readLine();
+        if (line.equals("true"))
+            Properties.setNighttheme(true);
+        else
+            Properties.setNighttheme(false);
+        line = br.readLine(); // путь сохранения
+        if (line != null)
+            Properties.setPathSave(line);
+    }
+    //end Properties's costIbl metods
 
     @Override // При запуске приложения (единожды)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            loadProperties();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(layout.book); // установка главного экрана
-        nighttheme = true;
         page = 0;
         initFindId();
-
+        setTheme();
     }
 
-    public void setPropertiesTheme() { // отрисовка цветов темы
-        if (nighttheme) { // темная тема
+    public void setTheme() { // отрисовка цветов темы
+        if (Properties.nighttheme) { // темная тема
             mBackground.setBackgroundColor(ContextCompat.getColor(this, color.dark));
             mTextMain.setTextColor(ContextCompat.getColor(this, color.light));
             mDayNightButton.setImageResource(drawable.ic_day_and_night);
@@ -162,25 +215,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 // нажатие на разные кнопки
-    public void onDayNightButtonClick(View view) {
-        nighttheme = !nighttheme;
-        setPropertiesTheme();
+    public void onDayNightButtonClick(View view) throws IOException {
+        Properties.setNighttheme(!Properties.nighttheme);
+        savePropertiesAdapter();
+        setTheme();
     }
 
     public void onBookClick(View view) {
         setContentView(layout.book);
         page = 0;
         initFindId();
-        setPropertiesTheme();
+        setTheme();
     }
 
     public void onLibraryClick(View view) {
         CreateTestModul tool = new CreateTestModul();
-
+        String[] cities = {"Test", "Самара", "Вологда", "Волгоград", "Саратов", "Воронеж"};
         setContentView(layout.library);
         page = 1;
         initFindId();
-        setPropertiesTheme();
+        setTheme();
+        AutoCompleteTextView autoCompleteTextView = findViewById(id.find);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String> (this, layout.find_view , cities);
+        autoCompleteTextView.setAdapter(adapter1);
 
         ArrayList<Book> pdfFiles = new ArrayList<Book>();
         pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
@@ -199,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = mNamesBooks.getItemAtPosition(i).toString();
                 Intent start = new Intent(getApplicationContext(), PDFOpener.class);
-                start.putExtra("pdfFileName",item);
+                start.putExtra("pdfFileName","Test");
                 startActivity(start);
             }
         });
@@ -210,6 +267,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(layout.profile);
         page = 2;
         initFindId();
-        setPropertiesTheme();
+        setTheme();
     }
 }

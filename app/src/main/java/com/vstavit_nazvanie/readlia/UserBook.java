@@ -6,22 +6,18 @@ public class UserBook extends Book {
 	private int pageCount;
 	private int pageNumber;
 	private int progressRead;
-	private HashMap<Integer, String> citate;
 
 	/*
 	public UserBook() {
 		super();
 	}
 
-
 	public UserBook(int id, int image, HashMap<Integer, Autor> autorhash, HashMap<Integer, Genre> ganrehash,
-					String title, int pageCount, int pageCount2, int pageNumber, int progressRead,
-					HashMap<Integer, String> citate) {
+					String title, int pageCount, int pageCount2, int pageNumber, int progressRead) {
 		super(id, image, autorhash, ganrehash, title, pageCount);
 		pageCount = pageCount2;
 		this.pageNumber = pageNumber;
 		this.progressRead = progressRead;
-		this.citate = citate;
 	}
 	*/
 
@@ -42,12 +38,6 @@ public class UserBook extends Book {
 	}
 	public void setProgressRead(int progressRead) {
 		this.progressRead = progressRead;
-	}
-	public HashMap<Integer, String> getCitate() {
-		return citate;
-	}
-	public void setCitate(HashMap<Integer, String> citate) {
-		this.citate = citate;
 	}
 	
 }

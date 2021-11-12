@@ -24,27 +24,44 @@ public class BookAdapter extends ArrayAdapter<Book> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+        String strtotextbox = "";
+        ViewHolder viewHolder;
 
-        View view = inflater.inflate(this.layout, parent, false);
 
-        ImageView imageView = view.findViewById(R.id.icon); // создаем связь между местом отображения и элентом (элемент еще не указан)
-        TextView nameView = view.findViewById(R.id.text_name); // создали связь без установки
-        TextView authorView = view.findViewById(R.id.text_author); // создали связь без установки
-        TextView yearView = view.findViewById(R.id.text_year);
-        TextView genreView = view.findViewById(R.id.text_genre);
+        if(convertView==null){
+            convertView = inflater.inflate(this.layout, parent, false);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
         Book book = books.get(position); //взяли одну книгу из списка
 
-        imageView.setImageResource(book.getImage()); // Устанавливаем в место отображения картинку
-        nameView.setText(book.getTitle()); // Устанавливаем название книги
+        viewHolder.imageView.setImageResource(book.getImage()); // Устанавливаем в место отображения картинку
+        viewHolder.nameView.setText(book.getTitle()); // Устанавливаем название книги
+
         for (int i = 1; i < book.authorhash.size() + 1; i++)
-            authorView.setText(book.getAuthorhash().get(i).getName());
-        yearView.setText(book.getStrYear());
-        String strtotextbox = "";
+            strtotextbox +=book.getAuthorhash().get(i).getName() + " ";
+        viewHolder.authorView.setText(strtotextbox);
+        viewHolder.yearView.setText(book.getStrYear());
+        strtotextbox = "";
         for (int i = 1; i < book.ganrehash.size() + 1; i++)
             strtotextbox += book.getGanrehash().get(i).getName() + " ";
-        genreView.setText(strtotextbox);
+        viewHolder.genreView.setText(strtotextbox);
 
-        return view;
+        return convertView;
+    }
+    private class ViewHolder {
+        final ImageView imageView;
+        final TextView nameView, authorView,yearView, genreView ;
+        ViewHolder(View view){
+            imageView = view.findViewById(R.id.icon); // создаем связь между местом отображения и элентом (элемент еще не указан)
+            nameView = view.findViewById(R.id.text_name); // создали связь без установки
+            authorView = view.findViewById(R.id.text_author); // создали связь без установки
+            yearView = view.findViewById(R.id.text_year);
+            genreView = view.findViewById(R.id.text_genre);
+        }
     }
 }
