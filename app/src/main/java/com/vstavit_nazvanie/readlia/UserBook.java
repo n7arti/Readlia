@@ -1,27 +1,26 @@
 package com.vstavit_nazvanie.readlia;
 
-import android.widget.ImageView;
-import java.util.Map;
+import java.util.HashMap;
 
 public class UserBook extends Book {
 	private int pageCount;
 	private int pageNumber;
 	private int progressRead;
-	private Map<Integer, String> citate;
-	
+
+	/*
 	public UserBook() {
 		super();
 	}
-	
-	public UserBook(int id, ImageView image, Map<Integer, Autor> autorhash, Map<Integer, Ganre> ganrehash,
-					String title, int pageCount, int pageCount2, int pageNumber, int progressRead,
-					Map<Integer, String> citate) {
+
+	public UserBook(int id, int image, HashMap<Integer, Autor> autorhash, HashMap<Integer, Genre> ganrehash,
+					String title, int pageCount, int pageCount2, int pageNumber, int progressRead) {
 		super(id, image, autorhash, ganrehash, title, pageCount);
 		pageCount = pageCount2;
 		this.pageNumber = pageNumber;
 		this.progressRead = progressRead;
-		this.citate = citate;
 	}
+	*/
+
 	public int getPageCount() {
 		return pageCount;
 	}
@@ -39,12 +38,6 @@ public class UserBook extends Book {
 	}
 	public void setProgressRead(int progressRead) {
 		this.progressRead = progressRead;
-	}
-	public Map<Integer, String> getCitate() {
-		return citate;
-	}
-	public void setCitate(Map<Integer, String> citate) {
-		this.citate = citate;
 	}
 	
 }

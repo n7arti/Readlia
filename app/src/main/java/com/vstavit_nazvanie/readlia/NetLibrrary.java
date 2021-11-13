@@ -4,14 +4,14 @@ import java.util.Map;
 
 public class NetLibrrary {
 	private Map<Integer, Autor> autorhash;
-	private Map<Integer, Ganre> ganrehash;
+	private Map<Integer, Genre> ganrehash;
 	private Map<Integer, User> userhash;
 	
 	public NetLibrrary() {
 		super();
 	}
 	
-	public NetLibrrary(Map<Integer, Autor> autorhash, Map<Integer, Ganre> ganrehash, Map<Integer, User> userhash) {
+	public NetLibrrary(Map<Integer, Autor> autorhash, Map<Integer, Genre> ganrehash, Map<Integer, User> userhash) {
 		super();
 		this.autorhash = autorhash;
 		this.ganrehash = ganrehash;
@@ -24,10 +24,10 @@ public class NetLibrrary {
 	public void setAutorhash(Map<Integer, Autor> autorhash) {
 		this.autorhash = autorhash;
 	}
-	public Map<Integer, Ganre> getGanrehash() {
+	public Map<Integer, Genre> getGanrehash() {
 		return ganrehash;
 	}
-	public void setGanrehash(Map<Integer, Ganre> ganrehash) {
+	public void setGanrehash(Map<Integer, Genre> ganrehash) {
 		this.ganrehash = ganrehash;
 	}
 	public Map<Integer, User> getUserhash() {

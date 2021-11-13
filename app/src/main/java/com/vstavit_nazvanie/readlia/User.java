@@ -7,7 +7,7 @@ public class User {
 	private Map<Integer, UserBook> finish;
 	private Map<Integer, UserBook> process;
 	private Map<Integer, Autor> autorFavor;
-	private Map<Integer, Ganre> ganreFavor;
+	private Map<Integer, Genre> ganreFavor;
 	private String email;
 	private String pathbook;
 	
@@ -17,7 +17,7 @@ public class User {
 		super();
 	}
 	public User(int id, Map<Integer, UserBook> finish, Map<Integer, UserBook> process, Map<Integer, Autor> autorFavor,
-			Map<Integer, Ganre> ganreFavor, String email, String pathbook) {
+                Map<Integer, Genre> ganreFavor, String email, String pathbook) {
 		
 		this.id = id;
 		this.finish = finish;
@@ -51,10 +51,10 @@ public class User {
 	public void setAutorFavor(Map<Integer, Autor> autorFavor) {
 		this.autorFavor = autorFavor;
 	}
-	public Map<Integer, Ganre> getGanreFavor() {
+	public Map<Integer, Genre> getGanreFavor() {
 		return ganreFavor;
 	}
-	public void setGanreFavor(Map<Integer, Ganre> ganreFavor) {
+	public void setGanreFavor(Map<Integer, Genre> ganreFavor) {
 		this.ganreFavor = ganreFavor;
 	}
 	public String getEmail() {

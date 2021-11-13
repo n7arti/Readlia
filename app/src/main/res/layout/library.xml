@@ -163,16 +163,58 @@
         tools:layout_editor_absoluteX="108dp"
         tools:layout_editor_absoluteY="98dp" />
 
+    <ImageView
+        android:id="@+id/findDraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/find"
+        app:layout_constraintEnd_toEndOf="@+id/find"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/find"
+        app:srcCompat="@drawable/ic_find"
+        tools:ignore="MissingConstraints,VectorDrawableCompat" />
+
+    <AutoCompleteTextView
+        android:id="@+id/find"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="55dp"
+        android:background="@android:color/transparent"
+        android:completionThreshold="1"
+        android:minHeight="48dp"
+        android:textColor="@color/dark"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/line"
+        tools:ignore="SpeakableTextPresentCheck,VectorDrawableCompat" />
+
+
     <ListView
         android:id="@+id/namesBooks"
-        android:layout_width="412dp"
-        android:layout_height="528dp"
+        android:layout_width="411dp"
+        android:layout_height="491dp"
         android:divider="@color/light"
         app:layout_constraintBottom_toTopOf="@+id/libraryButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line">
+        app:layout_constraintTop_toBottomOf="@+id/find">
 
     </ListView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/findDraw"
+        app:layout_constraintTop_toTopOf="@+id/line"
+        app:srcCompat="@drawable/ic_find_icon"
+        tools:ignore="VectorDrawableCompat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
