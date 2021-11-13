@@ -45,7 +45,7 @@ public class PDFOpener extends AppCompatActivity {
         TextView mNowPage =  findViewById(R.id.nowPage);
         TextView mAllPages =  findViewById(R.id.allPages);
         mNowPage.setText(String.valueOf(seekBar.getProgress()));
-        mAllPages.setText("/ " + String.valueOf(seekBar.getMax()));
+        mAllPages.setText("/ " + seekBar.getMax());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

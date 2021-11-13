@@ -2,16 +2,12 @@ package com.vstavit_nazvanie.readlia;
 
 import static com.vstavit_nazvanie.readlia.R.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -28,7 +24,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             return nighttheme + "\n" + pathSave;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "Nighttheme = " + nighttheme + "\n" + "Save path = " + pathSave + "\n";
@@ -88,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
         if (line != null)
             Properties.setPathSave(line);
     }
-    //end Properties's costIbl metods
+    //end Properties costIbl method's
+
+
+
 
     @Override // При запуске приложения (единожды)
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void initFindId() { // загрузка всех объектов
         mBackground = findViewById(id.constraintLayout);
-        mNamesBooks = (ListView) findViewById(id.namesBooks);
+        mNamesBooks = findViewById(id.namesBooks);
         mDayNightButton = findViewById(id.dayNightButton);
         mMyBookButton = findViewById(id.mybookButton);
         mLibraryButton = findViewById(id.libraryButton);
@@ -236,19 +235,19 @@ public class MainActivity extends AppCompatActivity {
         initFindId();
         setTheme();
         AutoCompleteTextView autoCompleteTextView = findViewById(id.find);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String> (this, layout.find_view , cities);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<> (this, layout.find_view , cities);
         autoCompleteTextView.setAdapter(adapter1);
 
-        ArrayList<Book> pdfFiles = new ArrayList<Book>();
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
-        pdfFiles.add(tool.createModul()); // добавили книгу в массив книг
+        ArrayList<Book> booksExample = new ArrayList<>();
 
-        BookAdapter adapter = new BookAdapter(this, layout.list_of_book, pdfFiles); // инциализировали адаптер который принимает (?), шаблон отображения элемента, список элементов
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+
+        NetBookAdapter adapter = new NetBookAdapter(this, layout.list_of_book, booksExample); // инциализировали адаптер который принимает context, шаблон отображения элемента, список элементов
         mNamesBooks.setAdapter(adapter); //адаптер показывает
 
         mNamesBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {

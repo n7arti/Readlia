@@ -1,20 +1,23 @@
 package com.vstavit_nazvanie.readlia;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.widget.ImageView;
+
 import java.util.HashMap;
 
 public class Book {
 	protected int id;
-	protected int image;
+	protected Uri pathToImage;
 	protected HashMap<Integer, Autor> authorhash = new HashMap<>();
 	protected HashMap<Integer, Genre> ganrehash = new HashMap<>();
 	protected String title;
 	protected int pageCount;
 	protected int year;
 	
-	public Book(int id, int image, String title, int pageCount, int year) {
-		
+	public Book(int id, Uri pathToImage, String title, int pageCount, int year) {
 		this.id = id;
-		this.image = image;
+		this.pathToImage = pathToImage;
 		this.title = title;
 		this.pageCount = pageCount;
 		this.year = year;
@@ -39,11 +42,11 @@ public class Book {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getImage() {
-		return image;
+	public Uri getPathToImage() {
+		return pathToImage;
 	}
-	public void setImage(int image) {
-		this.image = image;
+	public void setPathToImage(Uri image) {
+		this.pathToImage= image;
 	}
 	public HashMap<Integer, Autor> getAuthorhash() {
 		return authorhash;
