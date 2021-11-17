@@ -13,7 +13,6 @@ public class Autor {
 	}
 
 	public Autor(int id, String name) {
-		
 		this.id = id;
 		this.name = name;
 	}

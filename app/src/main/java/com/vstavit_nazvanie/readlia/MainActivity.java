@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,9 +26,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStreamReader;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    private final Context context = this;
     private ListView mNamesBooks; //список с книгами
     private ConstraintLayout mBackground; // цвет фона
     private TextView mTextMain; // цвет текста заголовка окна
@@ -86,8 +93,12 @@ public class MainActivity extends AppCompatActivity {
     }
     //end Properties costIbl method's
 
-
-
+    public void createBookInstance(Book book) throws IOException {
+        String save = book.saveInfo();
+        FileOutputStream fos = openFileOutput(String.valueOf(book.getId()), Context.MODE_PRIVATE);
+        fos.write(save.getBytes());
+        fos.close();
+    }
 
     @Override // При запуске приложения (единожды)
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case (1): {
                 mTextMain = findViewById(id.textLibrary);
+
                 break;
             }
             case (2): {
@@ -213,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 // нажатие на разные кнопки
     public void onDayNightButtonClick(View view) throws IOException {
         Properties.setNighttheme(!Properties.nighttheme);
@@ -227,39 +240,57 @@ public class MainActivity extends AppCompatActivity {
         setTheme();
     }
 
-    public void onLibraryClick(View view) {
+    public void onLibraryClick(View view) throws IOException {
         CreateTestModul tool = new CreateTestModul();
         String[] cities = {"Test", "Самара", "Вологда", "Волгоград", "Саратов", "Воронеж"};
-        setContentView(layout.library);
+        Book book = new Book();
+        ArrayList<Book> booksExample = new ArrayList<>();
+
         page = 1;
+        setContentView(layout.library);
         initFindId();
         setTheme();
+
+
         AutoCompleteTextView autoCompleteTextView = findViewById(id.find);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<> (this, layout.find_view , cities);
         autoCompleteTextView.setAdapter(adapter1);
 
-        ArrayList<Book> booksExample = new ArrayList<>();
+
 
         booksExample.add(tool.createModul()); // добавили книгу в массив книг
         booksExample.add(tool.createModul()); // добавили книгу в массив книг
         booksExample.add(tool.createModul()); // добавили книгу в массив книг
         booksExample.add(tool.createModul()); // добавили книгу в массив книг
         booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
+        booksExample.add(tool.createModul()); //  добавили книгу в массив книг
 
-        NetBookAdapter adapter = new NetBookAdapter(this, layout.list_of_book, booksExample); // инциализировали адаптер который принимает context, шаблон отображения элемента, список элементов
+        Book book1;
+        book1 = tool.createModul();
+        CreateTestModul.testDownloadBookInfo(book1, this);
+        booksExample.add(book1); // добавили книгу в массив книг
+
+        createBookInstance(tool.createModul()); // создание файла примера сохранения
+
+        NetBookAdapter adapter = new NetBookAdapter(this, layout.list_of_book, booksExample);
+        // инциализировали адаптер который принимает context, шаблон отображения элемента, список элементов
         mNamesBooks.setAdapter(adapter); //адаптер показывает
-
         mNamesBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = mNamesBooks.getItemAtPosition(i).toString();
-                Intent start = new Intent(getApplicationContext(), PDFOpener.class);
-                start.putExtra("pdfFileName","Test");
+                Book book = (Book) mNamesBooks.getItemAtPosition(i);
+                File fileBook = null;
+                try {
+                    fileBook = CreateTestModul.testDownloadBookForWatch(book, context);
+                    TimeUnit.SECONDS.sleep(4);
+                } catch (IOException | InterruptedException e) {
+                    Log.i("fileBook", String.valueOf(e));
+                }
+                Intent start = new Intent(context, TXTOpener.class);
+                start.putExtra("pathBook", Objects.requireNonNull(fileBook).getAbsolutePath());
                 startActivity(start);
             }
         });
-
     }
 
     public void onProfileClick(View view) {

@@ -1,43 +1,40 @@
 package com.vstavit_nazvanie.readlia;
 
-import android.annotation.SuppressLint;
-import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.widget.ImageView;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 public class CreateTestModul {
 
     public Book createModul() {
-        Book book = new Book();
+        Book book;
         Autor autor;
+        Autor autor1;
+        Autor autor2;
         Genre genre;
         Genre genre1;
+        Genre genre2;
         HashMap<Integer, Autor> autorhash = new HashMap<>();
         HashMap<Integer, Genre> ganrehash = new HashMap<>();
         HashMap<Integer, Book> bookhash = new HashMap<>();
 
         Uri uri = Uri.parse("android.resource://com.vstavit_nazvanie.readlia/drawable/ic_book_true");
-        book = new Book(1, uri, "Test book", 0, 2001);
+        book = new Book(1, uri, "Test book", 2001);
         /*
         book.setId(1);
         book.setTitle("Test book");
@@ -45,12 +42,18 @@ public class CreateTestModul {
         book.setYear(2001);
         */
         autor = new Autor(345, "Test author");
-        genre = new Genre(1, "Test genre");
-        genre1 = new Genre(2, "Test simple");
+        autor1 = new Autor(3555, "Test pie1");
+        autor2 = new Autor(3555, "Test people");
+        genre = new Genre(0, "Test genre");
+        genre1 = new Genre(1, "Test simple");
+        genre2 = new Genre(1, "Test sortirovka");
 
-        autorhash.put(1, autor);
-        ganrehash.put(1, genre);
-        ganrehash.put(2, genre1);
+        autorhash.put(0, autor);
+        autorhash.put(1, autor1);
+        //autorhash.put(2, autor2);
+        ganrehash.put(0, genre);
+        ganrehash.put(1, genre1);
+        //ganrehash.put(2, genre2);
 
         book.setAuthorhash(autorhash);
         book.setGanrehash(ganrehash);
@@ -58,8 +61,7 @@ public class CreateTestModul {
         return book;
     }
 
-    public static Uri testDownload(int id) {
-        String str = String.valueOf(id);
+    public static Uri testDownload() {
         final Uri[] uri = new Uri[1];
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
@@ -81,4 +83,47 @@ public class CreateTestModul {
         return uri[0];
     }
 
+    public static void testDownloadBookInfo(Book book, Context context) throws IOException {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
+        StorageReference islandRef = rootRef.child("bookInfo/1");
+        File localFile = File.createTempFile("temp" + String.valueOf(book.getId()), ".txt", context.getCacheDir());
+
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                book.loadInfo(localFile);
+                Log.i("Download", "BookInfo has been download and save");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.i("Download", "BookInfo has not been download");
+            }
+        });
+    }
+
+    public static File testDownloadBookForWatch(Book book, Context context) throws IOException {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
+        StorageReference islandRef = rootRef.child("books/1.txt");
+        File localFile = File.createTempFile("tempBook" + String.valueOf(book.getId()), ".txt", context.getCacheDir());
+
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                Log.i("Download", "Book " + book.getId() + " has been download and save");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.i("Download", "Book " + book.getId() + " has not been download");
+            }
+        });
+        return localFile;
+    }
 }

@@ -1,6 +1,7 @@
 package com.vstavit_nazvanie.readlia;
 
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,7 @@ public class Toolbar {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println("Error download image" + str);
+                Log.i("setImage", "Error download image " + str);
             }
         });
     }

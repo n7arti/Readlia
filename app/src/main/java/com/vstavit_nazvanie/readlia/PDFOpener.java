@@ -19,8 +19,8 @@ public class PDFOpener extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdfopener);
-        myPDFViewer = (PDFView) findViewById(R.id.pdfView);
+        setContentView(R.layout.activity_txtopener);
+        //myPDFViewer = (PDFView) findViewById(R.id.pdfView);
 
        String getItem = getIntent().getStringExtra("pdfFileName");
         if (getItem.equals("Test")) {
