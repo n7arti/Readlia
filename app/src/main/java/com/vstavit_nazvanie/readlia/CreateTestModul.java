@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class CreateTestModul {
 
-    public Book createModul() {
+    public Book createBook(int id) {
         Book book;
         Autor autor;
         Autor autor1;
@@ -34,7 +34,7 @@ public class CreateTestModul {
         HashMap<Integer, Book> bookhash = new HashMap<>();
 
         Uri uri = Uri.parse("android.resource://com.vstavit_nazvanie.readlia/drawable/ic_book_true");
-        book = new Book(1, uri, "Test book", 2001);
+        book = new Book(id, uri, "Test book", 2001);
         /*
         book.setId(1);
         book.setTitle("Test book");
@@ -49,10 +49,10 @@ public class CreateTestModul {
         genre2 = new Genre(1, "Test sortirovka");
 
         autorhash.put(0, autor);
-        autorhash.put(1, autor1);
+        //autorhash.put(1, autor1);
         //autorhash.put(2, autor2);
         ganrehash.put(0, genre);
-        ganrehash.put(1, genre1);
+        //ganrehash.put(1, genre1);
         //ganrehash.put(2, genre2);
 
         book.setAuthorhash(autorhash);
@@ -83,7 +83,7 @@ public class CreateTestModul {
         return uri[0];
     }
 
-    public static void testDownloadBookInfo(Book book, Context context) throws IOException {
+    public static Book testDownloadBookInfo(Book book, Context context) throws IOException {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
         StorageReference islandRef = rootRef.child("bookInfo/1");
@@ -103,6 +103,7 @@ public class CreateTestModul {
                 Log.i("Download", "BookInfo has not been download");
             }
         });
+        return book;
     }
 
     public static File testDownloadBookForWatch(Book book, Context context) throws IOException {

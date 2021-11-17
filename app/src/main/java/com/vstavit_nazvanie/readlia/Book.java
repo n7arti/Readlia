@@ -109,8 +109,9 @@ public class Book {
 	}
 
 	public void loadInfo(File file) {
+		FileReader fr = null;
 		try {
-			FileReader fr = new FileReader(file);
+			fr = new FileReader(file);
 			BufferedReader bf = new BufferedReader(fr);
 			String str = "";
 			Autor autor;
@@ -147,6 +148,14 @@ public class Book {
 		}
 		catch (IOException e) {
 			Log.i("loadInfo", String.valueOf(e));
+		}
+		finally {
+			try {
+				assert fr != null;
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

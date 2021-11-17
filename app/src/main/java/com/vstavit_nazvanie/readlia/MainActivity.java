@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         setTheme();
     }
 
-    public void onLibraryClick(View view) throws IOException {
+    public void onLibraryClick(View view) throws IOException, InterruptedException {
         CreateTestModul tool = new CreateTestModul();
         String[] cities = {"Test", "Самара", "Вологда", "Волгоград", "Саратов", "Воронеж"};
         Book book = new Book();
@@ -255,22 +255,19 @@ public class MainActivity extends AppCompatActivity {
         AutoCompleteTextView autoCompleteTextView = findViewById(id.find);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<> (this, layout.find_view , cities);
         autoCompleteTextView.setAdapter(adapter1);
-
-
-
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); // добавили книгу в массив книг
-        booksExample.add(tool.createModul()); //  добавили книгу в массив книг
-
-        Book book1;
-        book1 = tool.createModul();
-        CreateTestModul.testDownloadBookInfo(book1, this);
-        booksExample.add(book1); // добавили книгу в массив книг
-
-        createBookInstance(tool.createModul()); // создание файла примера сохранения
+        //функция-запрос на сервер которая вернет Начальный bookExample. Например "Популярное"
+        //начало содержимого функции
+        booksExample.add(Toolbar.downloadBookInfo(tool.createBook(1), this)); // добавили книгу в массив книг
+        booksExample.add(Toolbar.downloadBookInfo(tool.createBook(2), this)); // добавили книгу в массив книг
+        booksExample.add(Toolbar.downloadBookInfo(tool.createBook(3), this)); // добавили книгу в массив книг
+        booksExample.add(Toolbar.downloadBookInfo(tool.createBook(4), this)); // добавили книгу в массив книг
+        booksExample.add(Toolbar.downloadBookInfo(tool.createBook(5), this)); // добавили книгу в массив книг
+        booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+        booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+        booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+        booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+        //конец содержимого функции
+        //createBookInstance(tool.createModul()); // создание файла примера сохранения
 
         NetBookAdapter adapter = new NetBookAdapter(this, layout.list_of_book, booksExample);
         // инциализировали адаптер который принимает context, шаблон отображения элемента, список элементов
@@ -281,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 Book book = (Book) mNamesBooks.getItemAtPosition(i);
                 File fileBook = null;
                 try {
-                    fileBook = CreateTestModul.testDownloadBookForWatch(book, context);
+                    fileBook = Toolbar.downloadBookForWatch(book, context);
                     TimeUnit.SECONDS.sleep(4);
                 } catch (IOException | InterruptedException e) {
                     Log.i("fileBook", String.valueOf(e));

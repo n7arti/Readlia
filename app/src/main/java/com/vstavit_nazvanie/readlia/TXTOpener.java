@@ -20,7 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class TXTOpener extends AppCompatActivity {
-    private final int sizeOfList = 1900;
+    private final int sizeOfList = 2000;
     private String pathBook;
     private int page = 1;
     private boolean click = false;
