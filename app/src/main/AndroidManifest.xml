@@ -3,13 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vstavit_nazvanie.readlia">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_fairy_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher1_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Readlia">
+        android:theme="@style/Theme.Readlia"
+        android:fullBackupContent="true"
+        android:requestLegacyExternalStorage="true">
 
         <activity
             android:name=".MainActivity"
@@ -21,9 +29,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PDFOpener"
+        <activity android:name=".TXTOpener"
             android:parentActivityName=".MainActivity"
             />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
