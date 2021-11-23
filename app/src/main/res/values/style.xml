@@ -4,4 +4,32 @@
         parent="Widget.AppCompat.SeekBar">
         <item name="colorAccent">@color/light</item>
     </style>
+    <style name="SeekBarColorDay"
+        parent="Widget.AppCompat.SeekBar">
+        <item name="colorAccent">@color/dark</item>
+    </style>
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@color/dark</item>
+        <item name="android:fontFamily">@font/alegreya</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+    <style name="Readlia" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:background">@color/light</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="buttonBarButtonStyle">@color/dark</item>
+        <!-- Customize your theme here. -->
+        <!--<item name="windowNoTitle">true</item>
+         <item name="android:windowFullscreen">true</item> Убирает время -->
+    </style>
+    <style name="Readlia_Night" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/dark</item>
+        <item name="android:background" >@color/dark</item>
+        <item name="android:textColor">@color/light</item>
+        <item name="buttonBarButtonStyle">@color/light</item>
+    </style>
 </resources>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/dark">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -190,31 +191,139 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/line"
-        tools:ignore="SpeakableTextPresentCheck,VectorDrawableCompat" />
-
-
-    <ListView
-        android:id="@+id/namesBooks"
-        android:layout_width="411dp"
-        android:layout_height="491dp"
-        android:divider="@color/light"
-        app:layout_constraintBottom_toTopOf="@+id/libraryButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/find">
-
-    </ListView>
+        tools:ignore="SpeakableTextPresentCheck,VectorDrawableCompat,TouchTargetSizeCheck" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/findIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/yearFind"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/findDraw"
         app:layout_constraintTop_toTopOf="@+id/line"
         app:srcCompat="@drawable/ic_find_icon"
         tools:ignore="VectorDrawableCompat" />
 
+    <ImageButton
+        android:id="@+id/yearFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-20dp"
+        android:background="@android:color/transparent"
+        android:onClick="onYearFindClick"
+        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        app:layout_constraintStart_toEndOf="@+id/ganreFind"
+        app:layout_constraintTop_toBottomOf="@+id/findDraw"
+        app:srcCompat="@drawable/ic_find_not_click"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/ganreFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-20dp"
+        android:background="@android:color/transparent"
+        android:onClick="onGanreFindClick"
+        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        app:layout_constraintStart_toEndOf="@+id/authorFind"
+        app:layout_constraintTop_toBottomOf="@+id/findDraw"
+        app:srcCompat="@drawable/ic_find_not_click"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <ImageButton
+        android:id="@+id/authorFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-20dp"
+        android:background="@android:color/transparent"
+        android:onClick="onAuthorFindClick"
+        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        app:layout_constraintStart_toEndOf="@+id/titleFind"
+        app:layout_constraintTop_toBottomOf="@+id/findDraw"
+        app:srcCompat="@drawable/ic_find_not_click"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <ImageButton
+        android:id="@+id/titleFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-20dp"
+        android:background="@android:color/transparent"
+        android:onClick="onTitleFindClick"
+        app:layout_constraintBottom_toTopOf="@+id/namesBooks"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/findDraw"
+        app:srcCompat="@drawable/ic_find_click"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <ListView
+        android:id="@+id/namesBooks"
+        android:layout_width="411dp"
+        android:layout_height="491dp"
+        android:layout_marginTop="25dp"
+        android:background="@android:color/transparent"
+        android:divider="@color/light"
+        app:layout_constraintBottom_toTopOf="@+id/libraryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/find" />
+
+    <TextView
+        android:id="@+id/textTitleFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="по названию"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/alegreya"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/titleFind"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/titleFind"
+        app:layout_constraintBottom_toBottomOf="@id/titleFind"/>
+
+    <TextView
+        android:id="@+id/textAuthorFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="по автору"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/alegreya"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/authorFind"
+        app:layout_constraintStart_toEndOf="@id/titleFind"
+        app:layout_constraintTop_toTopOf="@id/authorFind"
+        app:layout_constraintBottom_toBottomOf="@id/authorFind"/>
+
+    <TextView
+        android:id="@+id/textGanreFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="по жанру"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/alegreya"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/ganreFind"
+        app:layout_constraintStart_toEndOf="@id/authorFind"
+        app:layout_constraintTop_toTopOf="@id/ganreFind"
+        app:layout_constraintBottom_toBottomOf="@id/ganreFind"/>
+
+    <TextView
+        android:id="@+id/textYearFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="по году"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/alegreya"
+        android:textColor="@color/light"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/yearFind"
+        app:layout_constraintStart_toEndOf="@id/ganreFind"
+        app:layout_constraintTop_toTopOf="@id/yearFind"
+        app:layout_constraintBottom_toBottomOf="@id/yearFind"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
