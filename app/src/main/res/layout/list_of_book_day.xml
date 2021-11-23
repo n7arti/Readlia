@@ -39,7 +39,7 @@
             android:layout_marginTop="0dp"
             android:fontFamily="@font/alegreya"
             android:background="@android:color/transparent"
-            android:textColor="@color/light"
+            android:textColor="@color/text_light"
             android:textSize="14sp" />
 
         <TextView
@@ -50,7 +50,7 @@
             android:alpha="0.8"
             android:fontFamily="@font/alegreya"
             android:background="@android:color/transparent"
-            android:textColor="@color/light"
+            android:textColor="@color/text_light"
             android:textSize="12sp" />
 
         <TextView
@@ -61,7 +61,7 @@
             android:alpha="0.8"
             android:fontFamily="@font/alegreya"
             android:background="@android:color/transparent"
-            android:textColor="@color/light"
+            android:textColor="@color/text_light"
             android:textSize="11sp" />
 
         <TextView
@@ -71,8 +71,8 @@
             android:layout_marginTop="3dp"
             android:fontFamily="@font/alegreya"
             android:background="@android:color/transparent"
-            android:textColor="@color/light"
+            android:textColor="@color/text_light"
             android:textSize="11sp" />
 
-</LinearLayout>
+    </LinearLayout>
 </LinearLayout>

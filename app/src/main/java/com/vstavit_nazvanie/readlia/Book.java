@@ -82,6 +82,7 @@ public class Book {
 	 *
 	 * @return Строка с полями книги
 	 */
+	@NonNull
 	public String saveInfo() {
 		StringBuilder saveStr = new StringBuilder();
 
@@ -151,8 +152,9 @@ public class Book {
 		}
 		finally {
 			try {
-				assert fr != null;
-				fr.close();
+				if (fr != null) {
+					fr.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

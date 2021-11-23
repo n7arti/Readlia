@@ -1,6 +1,5 @@
 package com.vstavit_nazvanie.readlia;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -14,9 +13,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CreateTestModul {
@@ -24,11 +22,11 @@ public class CreateTestModul {
     public Book createBook(int id) {
         Book book;
         Autor autor;
-        Autor autor1;
-        Autor autor2;
+        //Autor autor1;
+        //Autor autor2;
         Genre genre;
-        Genre genre1;
-        Genre genre2;
+        //Genre genre1;
+        //Genre genre2;
         HashMap<Integer, Autor> autorhash = new HashMap<>();
         HashMap<Integer, Genre> ganrehash = new HashMap<>();
         HashMap<Integer, Book> bookhash = new HashMap<>();
@@ -42,18 +40,18 @@ public class CreateTestModul {
         book.setYear(2001);
         */
         autor = new Autor(345, "Test author");
-        autor1 = new Autor(3555, "Test pie1");
-        autor2 = new Autor(3555, "Test people");
+        //autor1 = new Autor(3555, "Test pie1");
+        //autor2 = new Autor(3555, "Test people");
         genre = new Genre(0, "Test genre");
-        genre1 = new Genre(1, "Test simple");
-        genre2 = new Genre(1, "Test sortirovka");
+        //genre1 = new Genre(1, "Test simple");
+        //genre2 = new Genre(1, "Test sortirovka");
 
         autorhash.put(0, autor);
-        //autorhash.put(1, autor1);
-        //autorhash.put(2, autor2);
+        // autorhash.put(1, autor1);
+        // autorhash.put(2, autor2);
         ganrehash.put(0, genre);
-        //ganrehash.put(1, genre1);
-        //ganrehash.put(2, genre2);
+        // ganrehash.put(1, genre1);
+        // ganrehash.put(2, genre2);
 
         book.setAuthorhash(autorhash);
         book.setGanrehash(ganrehash);
@@ -66,7 +64,7 @@ public class CreateTestModul {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
 
-        // создаем ссылку на файл по адресу scoin.png
+        // создаем ссылку на файл по адресу coin.png
         // вызываем getDownloadUrl() и устанавливаем слушатель успеха,
         // который срабатывает в случае успеха процесса скачивания
         rootRef.child("images/1.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -126,5 +124,39 @@ public class CreateTestModul {
             }
         });
         return localFile;
+    }
+
+    public static ArrayList<Book> testCreateBookExample(Context context) {
+        ArrayList<Book> booksExample= new ArrayList<>();
+        CreateTestModul tool = new CreateTestModul();
+
+        try {
+            booksExample.add(Toolbar.downloadBookInfo(tool.createBook(1), context)); // добавили книгу в массив книг
+            booksExample.add(Toolbar.downloadBookInfo(tool.createBook(2), context)); // добавили книгу в массив книг
+            booksExample.add(Toolbar.downloadBookInfo(tool.createBook(3), context)); // добавили книгу в массив книг
+            booksExample.add(Toolbar.downloadBookInfo(tool.createBook(4), context)); // добавили книгу в массив книг
+            booksExample.add(Toolbar.downloadBookInfo(tool.createBook(5), context)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+        }
+        catch (IOException e) {
+            Log.i("testCreateBookExample", String.valueOf(e));
+        }
+
+        return booksExample;
+    }
+
+    public static ArrayList<Book> testUnitCreateBookExample() {
+        ArrayList<Book> booksExample= new ArrayList<>();
+        CreateTestModul tool = new CreateTestModul();
+
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+            booksExample.add(tool.createBook(1)); // добавили книгу в массив книг
+
+        return booksExample;
     }
 }

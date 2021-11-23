@@ -3,4 +3,10 @@
     <string name="book_name">Мои книги</string>
     <string name="library_name">Библиотека</string>
     <string name="profile_name">Профиль</string>
+    <string-array name="fonts">
+        <item>Alegreya</item>
+        <item>Arimo</item>
+        <item>Constacia Modern</item>
+        <item>Constacia Modern Deco</item>
+    </string-array>
 </resources>

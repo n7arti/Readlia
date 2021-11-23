@@ -1,21 +1,12 @@
 package com.vstavit_nazvanie.readlia;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,6 +15,7 @@ public class NetBookAdapter extends ArrayAdapter<Book> {
     private final LayoutInflater inflater;
     private final int layout;
     private final List<Book> books;
+
 
     public NetBookAdapter(Context context, int resource, List<Book> books) {
         super(context, resource, books);
@@ -46,7 +38,7 @@ public class NetBookAdapter extends ArrayAdapter<Book> {
 
         Book book = books.get(position); //взяли одну книгу из списка
 
-        Toolbar.setImage(viewHolder.imageView, book); // Устанавливаем в место отображения картинку
+        Toolbar.setDownloadImage(viewHolder.imageView, book); // Устанавливаем в место отображения картинку
         viewHolder.nameView.setText(book.getTitle()); // Устанавливаем название книги
 
         for (int i = 0; i < book.getAuthorhash().size(); i++)
