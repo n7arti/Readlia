@@ -12,7 +12,6 @@
     android:paddingEnd="8dip"
     android:orientation="horizontal"
     android:background="@android:color/transparent"
-
     >
 
     <ImageView

@@ -110,6 +110,7 @@ public class Toolbar {
 
     /**
      * @param book    Экземпляр книги для которой производится скачивание
+     * @param downloadAdapter Отслеживающий прогресс
      * @param context Контекст
      * @return Скаченный tempFile
      * @throws IOException Исключение обрабатывается в месте вызова
@@ -119,7 +120,8 @@ public class Toolbar {
      *                     При успехе или провале уведомляет Log
      *                     Отслеживает прогресс скачивания
      */
-    public static File downloadBookForWatch(Book book, DownloadAdapter downloadAdapter, Context context) throws IOException {
+    public static File downloadBookForWatch(Book book, DownloadAdapter downloadAdapter,
+                                            Context context) throws IOException {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference rootRef = storage.getReferenceFromUrl("gs://readlia.appspot.com");
         StorageReference islandRef = rootRef.child("books/" + book.getId() + ".txt");
@@ -163,15 +165,18 @@ public class Toolbar {
      * @param authorMass Список авторов
      * @param ganreMass  Список жанров
      * @param bookMass   Список книг
+     * @param yearMass   Список годов
      * @param book       Экзембляр с которого считывается информация
      * @return data[0] = localCountAuthor - Сколько прибавилось авторов
      * <p>
      * data[1] = localCountGanre - Сколько прибавилось жанров
      *          <p>
      *          Метод проходит по HashMap полученного экземпляра
-     *          И заполняет 3 ArrayList нужной информацией
+     *          И заполняет 4 ArrayList нужной информацией
      */
-    public static int[] addDataToMass(ArrayList<String> authorMass, ArrayList<String> ganreMass, ArrayList<String> bookMass, Book book) {
+    public static int[] addDataToMass(ArrayList<String> authorMass, ArrayList<String> ganreMass,
+                                      ArrayList<String> bookMass, ArrayList<String> yearMass,
+                                      Book book) {
         int localCountAuthor = 0;
         int localCountGanre = 0;
 
@@ -183,6 +188,7 @@ public class Toolbar {
             ganreMass.add(book.ganrehash.get(localCountGanre).getName());
         }
         bookMass.add(book.title);
+        yearMass.add(String.valueOf(book.year));
 
         int[] data = new int[2];
         data[0] = localCountAuthor;
@@ -195,7 +201,8 @@ public class Toolbar {
      * @param booksExample Список книг
      * @param authorMass   Список авторов
      * @param ganreMass    Список жанров
-     * @param bookMass     список книг
+     * @param bookMass     Список книг
+     * @param yearMass     Список годов
      * @return data[0] = countAuthor - Количество авторов;
      * <p>
      * data[1] = countGanre - Количество жанров;
@@ -205,7 +212,8 @@ public class Toolbar {
      *          Метод проходит по Скаченным bookInfo
      *          и вызывает addDataToMass по количеству экземляров Book
      */
-    public static int[] fillFindList(ArrayList<Book> booksExample, ArrayList<String> authorMass, ArrayList<String> ganreMass, ArrayList<String> bookMass) {
+    public static int[] fillFindList(ArrayList<Book> booksExample, ArrayList<String> authorMass, ArrayList<String> ganreMass,
+                                     ArrayList<String> bookMass, ArrayList<String> yearMass) {
         int countAuthor = 0;
         int countGanre = 0;
         int countBook = 0;
@@ -213,7 +221,7 @@ public class Toolbar {
 
 
         for (int i = 0; i < booksExample.size(); i++) {
-            data = Toolbar.addDataToMass(authorMass, ganreMass, bookMass, booksExample.get(i));
+            data = Toolbar.addDataToMass(authorMass, ganreMass, bookMass, yearMass, booksExample.get(i));
             countAuthor += data[0];
             countGanre += data[1];
             countBook++;

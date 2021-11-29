@@ -138,26 +138,26 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
     }
 
     public static void cutString(String line) {
-        int countElement = line.length();
+            int countElement = line.length();
 
-        if (text[page] != null) {
-            if (text[page].length() + countElement < sizeOfList)
-                text[page] += line;
-            else {
-                int freeSpace = sizeOfList - text[page].length();
-                text[page] += line.substring(0, freeSpace);
-                page++;
-                cutString(line.substring(freeSpace));
+            if (text[page] != null) {
+                if (text[page].length() + countElement < sizeOfList)
+                    text[page] += line;
+                else {
+                    int freeSpace = sizeOfList - text[page].length();
+                    text[page] += line.substring(0, freeSpace);
+                    page++;
+                    cutString(line.substring(freeSpace));
+                }
+            } else {
+                if (countElement < sizeOfList)
+                    text[page] = line;
+                else {
+                    text[page] = line.substring(0, sizeOfList);
+                    page++;
+                    cutString(line.substring(sizeOfList));
+                }
             }
-        } else {
-            if (countElement < sizeOfList)
-                text[page] = line;
-            else {
-                text[page] = line.substring(0, sizeOfList);
-                page++;
-                cutString(line.substring(sizeOfList));
-            }
-        }
     }
 
 

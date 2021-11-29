@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private final Context context = this;
+    private AutoCompleteTextView autoCompleteTextView;
     private ListView mNamesBooks; //список с книгами
     private ConstraintLayout mBackground; // цвет фона
     private TextView mTextMain; // цвет текста заголовка окна
@@ -52,12 +53,14 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mBookIcon; // иконка
     private ImageView mLibraryIcon; // иконка
     private ImageView mProfileIcon; // иконка
-    private int page; // индикатор страницы
-    private ArrayList<String> authorMass; // Список авторов
-    private ArrayList<String> ganreMass; // Список жанров
-    private ArrayList<String> bookMass; // Список книг
-    private ArrayList<Book> booksExample; // Массив книг для сетевой библиотеки "Популярное"
-    private NetBookAdapter netBookAdapter; // Сетева библиотека
+    private static int page; // индикатор страницы
+    private static ArrayList<String> authorMass; // Список авторов
+    private static ArrayList<String> ganreMass; // Список жанров
+    private static ArrayList<String> bookMass; // Список книг
+    private static ArrayList<String> yearMass; // Список книг
+    private static ArrayList<Book> booksExample; // Массив книг для сетевой библиотеки "Популярное"
+    private static NetBookAdapter netBookAdapter; // Сетева библиотека
+
 
     private static class Properties {
         private static boolean nighttheme = true;
@@ -132,6 +135,29 @@ public class MainActivity extends AppCompatActivity {
         start.putExtra("pathBook", Objects.requireNonNull(finalFileBook).getAbsolutePath());
         start.putExtra("nameBook", book.title);
         startActivity(start);
+    }
+
+    public void setFindList(int id) {
+        ArrayAdapter<String> adapterFind = null;
+        switch (id) {
+            case 0: {
+                adapterFind = new ArrayAdapter<>(this, layout.find_view, bookMass);
+                break;
+            }
+            case 1: {
+                adapterFind = new ArrayAdapter<>(this, layout.find_view, authorMass);
+                break;
+            }
+            case 2: {
+                adapterFind = new ArrayAdapter<>(this, layout.find_view, ganreMass);
+                break;
+            }
+            case 3: {
+                adapterFind = new ArrayAdapter<>(this, layout.find_view, yearMass);
+                break;
+            }
+        }
+        autoCompleteTextView.setAdapter(adapterFind);
     }
 
     @Override // При запуске приложения (единожды)
@@ -230,8 +256,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     public void initFindId() { // загрузка всех объектов
+        autoCompleteTextView = findViewById(id.find);
         mBackground = findViewById(id.constraintLayout);
         mNamesBooks = findViewById(id.namesBooks);
         mDayNightButton = findViewById(id.dayNightButton);
@@ -267,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
         Properties.setNighttheme(!Properties.nighttheme);
         savePropertiesAdapter();
         setTheme();
+        if (page == 1) {
+            //loadNetBookAdapter();
+            mNamesBooks.setAdapter(netBookAdapter);
+        }
     }
 
     public void onBookClick(View view) {
@@ -277,10 +307,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLibraryClick(View view) {
+
         CreateTestModul tool = new CreateTestModul();
         authorMass = new ArrayList<>();
         ganreMass = new ArrayList<>();
         bookMass = new ArrayList<>();
+        yearMass = new ArrayList<>();
 
         page = 1;
         setContentView(layout.library);
@@ -288,12 +320,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme();
 
         // добавить обработку и уведомлять об полученной инфе пользователя
-        Toolbar.fillFindList(booksExample, authorMass, ganreMass, bookMass);
-
-        AutoCompleteTextView autoCompleteTextView = findViewById(id.find);
-        ArrayAdapter<String> adapterFind = new ArrayAdapter<>(this, layout.find_view, authorMass);
-        autoCompleteTextView.setAdapter(adapterFind);
-
+        Toolbar.fillFindList(booksExample, authorMass, ganreMass, bookMass, yearMass);
+        setFindList(0); // установка поиска по названию
         mNamesBooks.setAdapter(netBookAdapter); //адаптер показывает
         mNamesBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -302,24 +330,21 @@ public class MainActivity extends AppCompatActivity {
                 DownloadWatcher downloadWatcher = new DownloadWatcher();
                 downloadAdapter.addPropertyChangeListener(downloadWatcher);
                 DateFormat timeFormat = new SimpleDateFormat("ss", Locale.getDefault());
-                Date currentDate = new Date();
-                String timeText = timeFormat.format(currentDate);
+                File fileBook = null;
 
 
                 Book book = (Book) mNamesBooks.getItemAtPosition(i);
-                File fileBook = null;
                 try {
                     fileBook = Toolbar.downloadBookForWatch(book, downloadAdapter, context);
                 } catch (IOException e) {
                     Log.i("fileBook", String.valueOf(e));
                 }
-
                 File finalFileBook = fileBook;
 
                 Thread run = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        while(true){
+                        while (true) {
                             try {
                                 Log.i("Watcher", String.valueOf(downloadWatcher.getGate()));
                                 if (downloadWatcher.getGate()) {
@@ -354,6 +379,8 @@ public class MainActivity extends AppCompatActivity {
         author.setImageResource(drawable.ic_find_not_click);
         ganre.setImageResource(drawable.ic_find_not_click);
         year.setImageResource(drawable.ic_find_not_click);
+        setFindList(0); // установка поиска по названию
+
     }
 
     public void onAuthorFindClick(View view) {
@@ -365,6 +392,8 @@ public class MainActivity extends AppCompatActivity {
         author.setImageResource(drawable.ic_find_click);
         ganre.setImageResource(drawable.ic_find_not_click);
         year.setImageResource(drawable.ic_find_not_click);
+        setFindList(1);  // установка поиска по названию
+
     }
 
     public void onGanreFindClick(View view) {
@@ -376,6 +405,8 @@ public class MainActivity extends AppCompatActivity {
         author.setImageResource(drawable.ic_find_not_click);
         ganre.setImageResource(drawable.ic_find_click);
         year.setImageResource(drawable.ic_find_not_click);
+        setFindList(2);  // установка поиска по названию
+
     }
 
     public void onYearFindClick(View view) {
@@ -387,5 +418,7 @@ public class MainActivity extends AppCompatActivity {
         author.setImageResource(drawable.ic_find_not_click);
         ganre.setImageResource(drawable.ic_find_not_click);
         year.setImageResource(drawable.ic_find_click);
+        setFindList(3);  // установка поиска по названию
+
     }
 }

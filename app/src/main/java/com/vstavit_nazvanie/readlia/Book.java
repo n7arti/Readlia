@@ -150,6 +150,7 @@ public class Book {
 		catch (IOException e) {
 			Log.i("loadInfo", String.valueOf(e));
 		}
+
 		finally {
 			try {
 				if (fr != null) {
@@ -159,6 +160,7 @@ public class Book {
 				e.printStackTrace();
 			}
 		}
+
 	}
 
 	@NonNull

@@ -7,5 +7,6 @@
     <color name="black">#000000</color>
     <color name="text_light">#090909</color>
     <color name="yellow">#FED01B</color>
+    <color name="orioks">#008CBA</color>
     <color name="little_text_light">#93969E</color>
 </resources>
