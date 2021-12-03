@@ -10,16 +10,25 @@ public class DownloadWatcher implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        if (propertyChangeEvent.getPropertyName().equals("finish")) {
-            Log.i("Download watcher", propertyChangeEvent.getPropertyName());
-            this.setGate(true);
+        switch (propertyChangeEvent.getPropertyName()) {
+            case "finish": {
+                Log.i("Download watcher", propertyChangeEvent.getPropertyName());
+                this.setGate(true);
+                break;
+            }
+            case "progress": {
+                this.checkGate ((int)propertyChangeEvent.getNewValue());
+                break;
+            }
+            case "startDownload": {
+                // in MainActivity.DownloadLocalBook
+                break;
+            }
         }
-        else
-            this.checkGate ((int)propertyChangeEvent.getNewValue());
     }
 
     public void checkGate(int progress_value) {
-        Log.i("Download watcher", String.valueOf(progress_value));
+        //Log.i("Download watcher", String.valueOf(progress_value));
     }
 
     public boolean getGate(){

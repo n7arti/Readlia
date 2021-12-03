@@ -1,37 +1,24 @@
 package com.vstavit_nazvanie.readlia;
 
-import static androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.TOP;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.compose.ui.text.font.FontFamily;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -39,27 +26,29 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class TXTOpener extends AppCompatActivity implements ColorPickerDialogListener {
     private static int sizeOfList = 2000; //2000
-    private static String pathBook;
-    private static String nameBook;
     private static int page;
-    private static boolean click = false;
-    private TextView txtOpen;
     private static int pageView;
-    private static String[] text;
-    private static int countPage;
-    private static boolean nightReadMode = false;
+    private static int pageCount;
     private static int textDay;
     private static int textNight;
     private static int backgroundDay;
     private static int backgroundNight;
+    private static int id;
+    private static String pathBook;
+    private static String nameBook;
+    private static String[] text;
+    private static boolean click = false;
+    private static boolean nightReadMode = false;
+    private static boolean checkMyBook = false;
+    private TextView txtOpen;
+    private TextView mNowPage;
+    private static MyBook myBook;
+    private SeekBar seekBar;
 
 
     // for Unittest
@@ -82,20 +71,38 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
     public static void setPathBook(String pathBook) {
         TXTOpener.pathBook = pathBook;
     }
-
     //end
+
+    public static int getPageView() {
+        return pageView;
+    }
+    public static int getPageCount() {
+        return pageCount;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pathBook = getIntent().getStringExtra("pathBook");
-        nameBook = getIntent().getStringExtra("nameBook");
+        checkMyBook = getIntent().getBooleanExtra("book", false);
+        if (checkMyBook) {
+            myBook = MainActivity.getMyBook();
+            pathBook = myBook.getPathToBook();
+            nameBook = myBook.getTitle();
+            id = myBook.getId();
+            pageView = myBook.getPageNumber(); // устанавливаем страницу на которой остановились
+        }
+        else {
+            pathBook = getIntent().getStringExtra("pathBook");
+            nameBook = getIntent().getStringExtra("nameBook");
+            id = getIntent().getIntExtra("id", 0);
+            pageView = 1;
+        }
+        page = 1;
         setContentView(R.layout.activity_txtopener);
         txtOpen = findViewById(R.id.txtOpen);
-        countPage = pageCount();
-        text = new String[countPage];
-        page = 1;
-        pageView = 1;
+        pageCount = pageCount();
+        text = new String[pageCount];
         click = false;
         loadTXT();
         txtOpen.setText(text[1]);
@@ -110,6 +117,8 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
     public static int pageCount() {
         int count = 0;
         String line;
+
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(pathBook));
             while ((line = reader.readLine()) != null) {
@@ -125,6 +134,8 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
 
     public static void loadTXT() {
         String line;
+
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(pathBook));
 
@@ -139,6 +150,7 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
 
     public static void cutString(String line) {
             int countElement = line.length();
+
 
             if (text[page] != null) {
                 if (text[page].length() + countElement < sizeOfList)
@@ -174,13 +186,13 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
             LayoutInflater ltInflater = getLayoutInflater();
             ltInflater.inflate(R.layout.book_menu_lib_top, constraintLayout1, true);
             ltInflater.inflate(R.layout.book_menu_lib_bottom, constraintLayout, true);
-            SeekBar seekBar = (SeekBar) findViewById(R.id.seekBarText);
-            TextView mNowPage = findViewById(R.id.nowPage);
+            seekBar = (SeekBar) findViewById(R.id.seekBarText);
+            mNowPage = findViewById(R.id.nowPage);
             TextView mAllPages = findViewById(R.id.allPages);
             TextView mnameBook = findViewById(R.id.mNameBook);
             mnameBook.setText(nameBook);
             mNowPage.setText(String.valueOf(seekBar.getProgress()));
-            seekBar.setMax(countPage - 1);
+            seekBar.setMax(pageCount - 1);
             seekBar.setProgress(pageView);
             mAllPages.setText("/ " + seekBar.getMax());
             mNowPage.setText(String.valueOf(seekBar.getProgress()));
@@ -216,12 +228,25 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
         if (pageView > 1)
             pageView--;
         txtOpen.setText(text[pageView]);
+        mNowPage.setText(String.valueOf(seekBar.getProgress()));
+        seekBar.setMax(pageCount - 1);
+        seekBar.setProgress(pageView);
+        if (checkMyBook) {
+            myBook.setProgressRead(Toolbar.calculateProgress(pageCount, pageView));
+        }
     }
 
     public void onForwardClick(View view) {
-        if (pageView + 1 < countPage)
+        if (pageView + 1 < pageCount)
             pageView++;
         txtOpen.setText(text[pageView]);
+        mNowPage.setText(String.valueOf(seekBar.getProgress()));
+        seekBar.setMax(pageCount - 1);
+        seekBar.setProgress(pageView);
+        if (checkMyBook) {
+            myBook.setProgressRead(Toolbar.calculateProgress(pageCount, pageView));
+        }
+
     }
 
     public void onBackToLibraryClick(View view) {
@@ -243,6 +268,7 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
         ltInflater.inflate(R.layout.settings_read, parentLayout, true);
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         TextView bright = findViewById(R.id.bright);
+
 
         try {
             int curBrightnessValue = Settings.System.getInt(
@@ -342,6 +368,7 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
     }
 
     public void onSClick(View view) {
+        // Костыль. Не удалять. Спрашивать разработчика.
     }
 
     public void onColorTextClick(View view) {
@@ -375,26 +402,26 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
         setViewReadMode();
     }
 
-        @Override
-        public void onDialogDismissed ( int dialogId){
-            //Toast.makeText(this, "Dialog dismissed", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onDialogDismissed ( int dialogId){
+        //Toast.makeText(this, "Dialog dismissed", Toast.LENGTH_SHORT).show();
 
-        }
-        private void createColorPickerDialog ( int id){
-            ColorPickerDialog.newBuilder()
-                    .setColor(Color.RED)
-                    .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
-                    .setAllowCustom(true)
-                    .setAllowPresets(true)
-                    .setColorShape(ColorShape.CIRCLE)
-                    .setDialogId(id)
-                    .show(this);
-        }
+    }
+    private void createColorPickerDialog ( int id){
+        ColorPickerDialog.newBuilder()
+                .setColor(Color.RED)
+                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setAllowCustom(true)
+                .setAllowPresets(true)
+                .setColorShape(ColorShape.CIRCLE)
+                .setDialogId(id)
+                .show(this);
+    }
 
-        public void onColorFonClick (View view){
-            final int firstId = 2;
-            createColorPickerDialog(firstId);
-        }
+    public void onColorFonClick (View view){
+        final int firstId = 2;
+        createColorPickerDialog(firstId);
+    }
 
     public void onReadModeClick(View view) {
         nightReadMode = !nightReadMode;
@@ -461,6 +488,11 @@ public class TXTOpener extends AppCompatActivity implements ColorPickerDialogLis
             }
         }
 
+    }
+
+    public void downloadBookClick(View view) {
+        MainActivity.downloadAdapter.downloadEvent(pathBook);
+        Log.i("ToLocalLibrary", "opener");
     }
 }
 
