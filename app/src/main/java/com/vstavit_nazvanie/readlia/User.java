@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class User {
 	private int id;
-	private Map<Integer, UserBook> finish;
-	private Map<Integer, UserBook> process;
+	private Map<Integer, MyBook> finish;
+	private Map<Integer, MyBook> process;
 	private Map<Integer, Autor> autorFavor;
 	private Map<Integer, Genre> ganreFavor;
 	private String email;
@@ -16,7 +16,7 @@ public class User {
 	public User() {
 		super();
 	}
-	public User(int id, Map<Integer, UserBook> finish, Map<Integer, UserBook> process, Map<Integer, Autor> autorFavor,
+	public User(int id, Map<Integer, MyBook> finish, Map<Integer, MyBook> process, Map<Integer, Autor> autorFavor,
                 Map<Integer, Genre> ganreFavor, String email, String pathbook) {
 		
 		this.id = id;
@@ -33,16 +33,16 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Map<Integer, UserBook> getFinish() {
+	public Map<Integer, MyBook> getFinish() {
 		return finish;
 	}
-	public void setFinish(Map<Integer, UserBook> finish) {
+	public void setFinish(Map<Integer, MyBook> finish) {
 		this.finish = finish;
 	}
-	public Map<Integer, UserBook> getProcess() {
+	public Map<Integer, MyBook> getProcess() {
 		return process;
 	}
-	public void setProcess(Map<Integer, UserBook> process) {
+	public void setProcess(Map<Integer, MyBook> process) {
 		this.process = process;
 	}
 	public Map<Integer, Autor> getAutorFavor() {

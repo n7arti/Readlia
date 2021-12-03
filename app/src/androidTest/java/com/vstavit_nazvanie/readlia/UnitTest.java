@@ -126,7 +126,11 @@ public class UnitTest extends Application {
         assertEquals(pageCount, 2);
     }
 
-
+    @Test
+    public void testCalculateProgress() {
+        int ans = Toolbar.calculateProgress(1000, 100);
+        assertEquals(10, ans);
+    }
 
     /*
     @Test

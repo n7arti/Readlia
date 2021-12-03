@@ -7,7 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +20,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.mbms.FileInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +32,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,32 +46,97 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     private final Context context = this;
+    private static int page; // индикатор страницы
+    private static int countSaveMyBook = 0;
+    private static MyBook myBook; // Текущая рабочая книга
+    private static Book ThatBook; // Текущая рабочая книга
     private AutoCompleteTextView autoCompleteTextView;
     private ListView mNamesBooks; //список с книгами
     private ConstraintLayout mBackground; // цвет фона
-    private TextView mTextMain; // цвет текста заголовка окна
+    private ConstraintLayout mLine; // линия около заголовка
     private ImageButton mDayNightButton;// кнопка день\ночь
     private ImageButton mMyBookButton; // кнопка мои книги
     private ImageButton mLibraryButton; // кнопка библиотека
     private ImageButton mProfileButton; // кнопка профиль
-    private ConstraintLayout mLine; // линия около заголовка
     private TextView mlittleMyBookText; // названия кнопоки
     private TextView mlittleLibraryText; // названия кнопоки
     private TextView mlittleProfileText; // названия кнопоки
+    private TextView mTextMain; // цвет текста заголовка окна
     private ImageView mBookIcon; // иконка
     private ImageView mLibraryIcon; // иконка
     private ImageView mProfileIcon; // иконка
-    private static int page; // индикатор страницы
-    private static ArrayList<String> authorMass; // Список авторов
-    private static ArrayList<String> ganreMass; // Список жанров
-    private static ArrayList<String> bookMass; // Список книг
-    private static ArrayList<String> yearMass; // Список книг
+    private static ArrayList<String> authorMass = new ArrayList<>(); // Список авторов
+    private static ArrayList<String> ganreMass = new ArrayList<>(); // Список жанров
+    private static ArrayList<String> bookMass = new ArrayList<>(); // Список книг
+    private static ArrayList<String> yearMass = new ArrayList<>(); // Список книг
     private static ArrayList<Book> booksExample; // Массив книг для сетевой библиотеки "Популярное"
-    private static NetBookAdapter netBookAdapter; // Сетева библиотека
+    private static ArrayList<MyBook> localBookMass = new ArrayList<>(); // Список сохраненных книг
+    private static NetBookAdapter netBookAdapter; // Адаптер для "Сетева библиотека"
+    private static LocalBookAdapter localBookAdapter; // Адаптер для "Мои книги"
+    protected static DownloadAdapter downloadAdapter = new DownloadAdapter(); // Ловец событий
 
 
+    public static MyBook getMyBook(){
+        return myBook;
+    }
+
+    private class DownloadLocalBook implements PropertyChangeListener {
+        public DownloadLocalBook() {
+        }
+
+        @Override
+        public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+            switch (propertyChangeEvent.getPropertyName()) {
+                case "startDownload": {
+                    this.startDownload((String) propertyChangeEvent.getNewValue())  ;
+                    break;
+                }
+            }
+            Log.i("ToLocalLibrary", "activity");
+        }
+
+        public void startDownload(String pathToBook) {
+            Log.i("ToLocalLibrary", "in method");
+            OutputStream fos = null;
+            InputStream fis = null;
+            File fileOut = new File(pathToBook);
+            File fileIn = new File(countSaveMyBook + "Book");
+            try {
+                fos = openFileOutput(fileIn.getName(), Context.MODE_PRIVATE);
+                fis = new FileInputStream(fileOut);
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = fis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, length);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    Log.i("ToLocalLibrary", "finish");
+                    Log.i("ToLocalLibrary", "fis " + pathToBook);
+                    fis.close();
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                myBook = new MyBook(ThatBook);
+                myBook.setPathToBook(fileIn.getAbsolutePath());
+                myBook.setPageCount(TXTOpener.getPageCount());
+                myBook.setPageNumber(TXTOpener.getPageView());
+                Log.i("wtf", myBook.toString());
+                localBookMass.add(myBook);
+                Log.i("AddMyBook", "Add book with id" + myBook.getId());
+                saveLocalLibrary();
+                countSaveMyBook++;
+                savePropertiesAdapter();
+            }
+        }
+    }
     private static class Properties {
         private static boolean nighttheme = true;
         private static String pathSave = "Classic path";
@@ -76,44 +151,81 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public static String saveProperties() {
-            return nighttheme + "\n" + pathSave;
+            return nighttheme + "\n" + countSaveMyBook + "\n" + pathSave;
         }
 
         @NonNull
         @Override
         public String toString() {
-            return "Nighttheme = " + nighttheme + "\n" + "Save path = " + pathSave + "\n";
+            return "Nighttheme = " + nighttheme + "\n" + "Save path = " + pathSave + "\n" +
+                    "Count save MyBook = " + countSaveMyBook + "\n";
         }
     }
     //end Properties class
 
-    public void savePropertiesAdapter() throws IOException {
-        String string = Properties.saveProperties();
-        FileOutputStream fos = openFileOutput("Properties", Context.MODE_PRIVATE);
-        fos.write(string.getBytes());
-        fos.close();
-    }
+    public void savePropertiesAdapter() {
+        String saveString = Properties.saveProperties();
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput("Properties", Context.MODE_PRIVATE);
+            fos.write(saveString.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+    }
     public void loadProperties() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Properties")));
-        String line = br.readLine();
+        String line = br.readLine(); // тема
         if (line.equals("true"))
             Properties.setNighttheme(true);
         else
             Properties.setNighttheme(false);
+        line = br.readLine(); // Количество книг
+        countSaveMyBook = Integer.parseInt(line);
         line = br.readLine(); // путь сохранения
         if (line != null)
             Properties.setPathSave(line);
+
+        br.close();
     }
     //end Properties costIbl method's
 
+    public void saveLocalLibrary() {
+        StringBuilder saveString = new StringBuilder();
+
+
+        saveString.append(localBookMass.get(countSaveMyBook).toString());
+        try {
+            FileOutputStream fos = openFileOutput( (countSaveMyBook) + "MyBookInfo", Context.MODE_PRIVATE);
+            fos.write(saveString.toString().getBytes(StandardCharsets.UTF_8));
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadLocalLibrary() throws IOException {
+        for (int i = 0; i < countSaveMyBook; i++) {
+            MyBook myBook = new MyBook();
+            File file = new File(i + "MyBookInfo"); // инпут стрим надо
+            myBook.loadInfo(file);
+            localBookMass.add(myBook);
+        }
+    }
+
+    public void printLocalLibrary() {
+        for (int i = 0; i < localBookMass.size(); i++) {
+            Log.i("PRINT", localBookMass.get(i).toString());
+        }
+    }
     public void createTempFileForUnitTest() throws IOException {
         String string = "12345678910";
         FileOutputStream fos = openFileOutput("TempUnitTest", Context.MODE_PRIVATE);
         fos.write(string.getBytes());
         fos.close();
     }
-
     public File createBookInstance(Book book) throws IOException {
         String save = book.saveInfo();
         File file = new File(String.valueOf(book.getId()));
@@ -122,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
         fos.close();
         return file;
     }
-
     public void loadNetBookAdapter() {
         if (Properties.nighttheme)
             netBookAdapter = new NetBookAdapter(this, layout.list_of_book, booksExample); // Установка в адаптер листа с книгами
@@ -130,10 +241,19 @@ public class MainActivity extends AppCompatActivity {
             netBookAdapter = new NetBookAdapter(this, layout.list_of_book_day, booksExample); // Установка в адаптер листа с книгами
     }
 
-    public void startBook(Book book, File finalFileBook) {
+    public void startLocalBook(MyBook mybook_value, File finalFileBook) {
+        myBook = mybook_value;
+        Intent start = new Intent(context, TXTOpener.class);
+        start.putExtra("Book", true);
+        startActivity(start);
+    }
+
+    public void startNetBook(Book book, File finalFileBook) {
+        ThatBook = book;
         Intent start = new Intent(context, TXTOpener.class);
         start.putExtra("pathBook", Objects.requireNonNull(finalFileBook).getAbsolutePath());
         start.putExtra("nameBook", book.title);
+        start.putExtra("id", book.getId());
         startActivity(start);
     }
 
@@ -165,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         try {
             loadProperties();
+            loadLocalLibrary();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -173,7 +294,18 @@ public class MainActivity extends AppCompatActivity {
         initFindId();
         setTheme();
         //функция-запрос на сервер которая вернет Начальный bookExample. Например "Популярное"
-        booksExample = CreateTestModul.testCreateBookExample(this);
+        Thread run = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                booksExample = CreateTestModul.testCreateBookExample(context);
+            }
+        });
+        run.start();
+
+        // Подписка на события
+        DownloadLocalBook downloadLocalBook = new DownloadLocalBook();
+        downloadAdapter.addPropertyChangeListener(downloadLocalBook);
+        // end
     }
 
     public void setTheme() { // отрисовка цветов темы
@@ -307,18 +439,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLibraryClick(View view) {
-
         CreateTestModul tool = new CreateTestModul();
-        authorMass = new ArrayList<>();
-        ganreMass = new ArrayList<>();
-        bookMass = new ArrayList<>();
-        yearMass = new ArrayList<>();
 
         page = 1;
         setContentView(layout.library);
         initFindId();
         setTheme();
-
+        printLocalLibrary();
         // добавить обработку и уведомлять об полученной инфе пользователя
         Toolbar.fillFindList(booksExample, authorMass, ganreMass, bookMass, yearMass);
         setFindList(0); // установка поиска по названию
@@ -326,7 +453,6 @@ public class MainActivity extends AppCompatActivity {
         mNamesBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DownloadAdapter downloadAdapter = new DownloadAdapter();
                 DownloadWatcher downloadWatcher = new DownloadWatcher();
                 downloadAdapter.addPropertyChangeListener(downloadWatcher);
                 DateFormat timeFormat = new SimpleDateFormat("ss", Locale.getDefault());
@@ -344,11 +470,12 @@ public class MainActivity extends AppCompatActivity {
                 Thread run = new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        //this.setDeamon(true);
                         while (true) {
                             try {
                                 Log.i("Watcher", String.valueOf(downloadWatcher.getGate()));
                                 if (downloadWatcher.getGate()) {
-                                    startBook(book, finalFileBook);
+                                    startNetBook(book, finalFileBook);
                                     break;
                                 }
                                 Thread.sleep(1000); //1000 - 1 сек
@@ -356,6 +483,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         }
+
                     }
                 });
                 run.start();

@@ -15,10 +15,13 @@ public class DownloadAdapter {
 
     public void setProgress(int progress_value) {
         support.firePropertyChange("progress", this.progress, progress_value);
-        Log.i("Download adapter", progress_value + " " + progress);
         progress = progress_value;
     }
 
+    public void downloadEvent(String pathToBook) {
+        support.firePropertyChange("startDownload", 1, pathToBook);
+        Log.i("ToLocalLibrary", "adapter");
+    }
     public void addPropertyChangeListener(PropertyChangeListener downloadListener) {
         support.addPropertyChangeListener(downloadListener);
     }

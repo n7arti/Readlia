@@ -234,4 +234,12 @@ public class Toolbar {
 
         return data;
     }
+
+    public static int calculateProgress(int pageCount, int pageNumber) {
+        int ans;
+
+        ans = (int) (Double.parseDouble(String.valueOf(pageNumber)) / Double.parseDouble(String.valueOf(pageCount)) * 100);
+
+        return ans;
+    }
 }
