@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         setTheme();
     }
 
-    public void onLibraryClick(View view) {
+    /*public void onLibraryClick(View view) {
         CreateTestModul tool = new CreateTestModul();
         String[] cities = {"Test", "Самара", "Вологда", "Волгоград", "Саратов", "Воронеж"};
         setContentView(layout.library);
@@ -260,8 +260,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
+    public void onLibraryClick(View view) {
+        Intent start = new Intent(getApplicationContext(), PDFOpener.class);
+        start.putExtra("pdfFileName","Test");
+        startActivity(start);
+        setContentView(layout.activity_pdfopener);
+        page = 1;
+        initFindId();
+        setTheme();
+
+    }
     public void onProfileClick(View view) {
         setContentView(layout.profile);
         page = 2;

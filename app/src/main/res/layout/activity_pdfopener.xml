@@ -13,10 +13,6 @@
         android:onClick="onPDFClick"
         tools:ignore="OnClick"
         />
-<com.folioreader.ui.view.FolioWebView
-    android:id="@+id/epubView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menu"
